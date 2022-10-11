@@ -117,3 +117,16 @@ assert_cmd = "1"
   abstract way. For example, if an object implements the `Display` trait, then
   it can be formatted for user-facing output.
 
+## Resources
+
+* [The Rust Programming Language](https://doc.rust-lang.org/book/)
+* [Rust-Bio: a fast and safe bioinformatics library](https://academic.oup.com/bioinformatics/article/32/3/444/1743419)
+> "The key feature of Rust is a concept of ownership and borrowing of
+variables, that enables the compiler to automatically decide about lifetime of
+objects during compile time, making an online memory management superfluous
+without requiring manual freeing of resources. At the same time, this concept
+prevents common sources of errors with low-level languages like accessing
+invalid memory regions. Finally, the ownership concept enforces thread-safety,
+such that race conditions cannot occur. These features make Rust a promising
+solution to above tradeoff problem."
+
