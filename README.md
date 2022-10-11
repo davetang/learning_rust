@@ -45,14 +45,15 @@ directory is for source code files and `main.rs` is the default starting point.
 
 Use `cargo run` (in the `hello` directory) to compile and run or else you'll
 get the following error `error: could not find Cargo.toml in /work or any
-parent directory`.
+parent directory`. Use `cargo build` for just building and not running.
 
 ```bash
 cargo run
 ```
 
 By default, Cargo will build a `debug` target and there will be a
-`target/debug` directory containing the build artifacts.
+`target/debug` directory containing the build artifacts. Use `cargo clean` to
+remove the target directory.
 
 ### Testing
 
@@ -104,8 +105,15 @@ this crate is only used for testing and benchmarking.
 assert_cmd = "1"
 ```
 
+## Useful crates
+
+* For parsing command-line arguments, use [clap](https://crates.io/crates/clap) (command-line argument parser).
+
 ## Notes
 
-* Rust libraries are called crates and they are expected to use semantic version
-numbers in the form major.minor.patch.
+* Rust libraries are called crates and they are expected to use semantic
+  version numbers in the form major.minor.patch.
+* A _trait_ in Rust is a way to define the behaviour of an object in an
+  abstract way. For example, if an object implements the `Display` trait, then
+  it can be formatted for user-facing output.
 
