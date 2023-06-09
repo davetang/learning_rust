@@ -1,3 +1,17 @@
+Table of Contents
+=================
+
+* [Learning Rust](#learning-rust)
+   * [Docker](#docker)
+   * [Getting started](#getting-started)
+      * [Testing](#testing)
+      * [Adding a project dependency](#adding-a-project-dependency)
+   * [Useful crates](#useful-crates)
+   * [Notes](#notes)
+   * [Resources](#resources)
+
+<!-- Created by https://github.com/ekalinin/github-markdown-toc -->
+
 # Learning Rust
 
 Because why not!?
@@ -130,3 +144,6 @@ invalid memory regions. Finally, the ownership concept enforces thread-safety,
 such that race conditions cannot occur. These features make Rust a promising
 solution to above tradeoff problem."
 
+* [freeCodeCamp's complete Rust programming
+course](https://www.freecodecamp.org/news/rust-programming-course-for-beginners/)
+(14-hour watch).
