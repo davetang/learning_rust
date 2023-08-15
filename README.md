@@ -82,7 +82,7 @@ rustup self uninstall
 
 Use the [official Docker image](https://hub.docker.com/_/rust/).
 
-```bash
+```console
 docker pull rust:1.64.0
 
 docker run --rm rust:1.64.0 cat /etc/os-release
@@ -104,32 +104,78 @@ rust:1.64.0 called `learning_rust`.
 
 The Rust compiler is `rustc`. Compile the hello world example by running:
 
-```bash
+```console
 rustc eg/hello.rs
+
+./hello
+# Hello, world!
+```
+
+Determine file type.
+
+```console
+file ./hello
+
+# ./hello: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=81ba1f0be3c7a8c64dfc5e3e05959affe202f9a3, not stripped
 ```
 
 Cargo is Rust's build tool, package manager, and test runner. You can use it to
-start a new Rust project.
+start a new Rust project. The `src` directory is for source code files and
+`main.rs` is the default starting point.
 
-```bash
-cargo new hello
+```console
+cargo new new_project
+#      Created binary (application) `new_project` package
+
+tree --charset ascii new_project/
+# new_project/
+# |-- Cargo.toml
+# `-- src
+#     `-- main.rs
+#
+# 1 directory, 2 files
 ```
 
 `Cargo.toml` is a configuration file for the project and stands for [Tom's
-Obvious, Minimal Language](https://en.wikipedia.org/wiki/TOML). The `src`
-directory is for source code files and `main.rs` is the default starting point.
+Obvious, Minimal Language](https://en.wikipedia.org/wiki/TOML).
 
-Use `cargo run` (in the `hello` directory) to compile and run or else you'll
-get the following error `error: could not find Cargo.toml in /work or any
-parent directory`. Use `cargo build` for just building and not running.
+```toml
+[package]
+name = "new_project"
+version = "0.1.0"
+edition = "2021"
 
-```bash
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+```
+
+The `edition` key is the edition of Rust that should be used to compile the
+program. Editions are how the Rust community introduces changes that are not
+backward compatible.
+
+Use `cargo run` (in the project root directory) to compile and run or else
+you'll get the following error `error: could not find Cargo.toml in /work or
+any parent directory`. Use `cargo build` for just building and not running.
+
+```console
+cd new_project
 cargo run
+#    Compiling new_project v0.1.0 (/home/dtang/github/learning_rust/new_project)
+#     Finished dev [unoptimized + debuginfo] target(s) in 0.20s
+#      Running `target/debug/new_project`
+# Hello, world!
 ```
 
 By default, Cargo will build a `debug` target and there will be a
 `target/debug` directory containing the build artifacts. Use `cargo clean` to
 remove the target directory.
+
+### Getting help
+
+You can get help on any of Cargo's commands using:
+
+    cargo help command
 
 ### Testing
 
