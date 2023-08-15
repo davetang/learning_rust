@@ -2,6 +2,7 @@ Table of Contents
 =================
 
 * [Learning Rust](#learning-rust)
+   * [Installation](#installation)
    * [Docker](#docker)
    * [Getting started](#getting-started)
       * [Testing](#testing)
@@ -15,6 +16,67 @@ Table of Contents
 # Learning Rust
 
 Because why not!?
+
+Rust is syntactically similar to C, so there are `for` loops, semicolon
+terminated statements, and blocks formed by curly braces. Rust is statically
+typed, meaning that a variable can never change its type but you don't always
+have to declare a variable's type in Rust because the compiler can often figure
+it out from the context. Variables in Rust are _immutable_ by default.
+Functions are _first-class_ values, like in functional programming languages.
+
+Rust is not an object-oriented language, as there are no classes or inheritance
+in Rust. Instead, Rust uses a `struct` (structure) to represent complex data
+types and _traits_ to describe how types can behave. These structures can have
+methods, can mutate the internal state of the data, and might even be called
+_objects_ in the documentation, but they are not objects in the formal sense of
+the word.
+
+Rust can guarantee memory safety through the use of a _borrow checker_ that
+tracks which part of a program has safe access to different parts of memory and
+this safety does not come at the expense of performance.
+
+Rust programs compile to native binaries and often match or beat the speed of
+programs written in C or C++. For these reasons, Rust is often described as a
+systems programming language that has been designed for performance and safety.
+
+## Installation
+
+Rust can be installed using `rustup`, which is a command line tool for managing
+Rust versions and associated tools. Open a terminal, enter the command below
+and follow the prompt.
+
+```console
+curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+```
+```
+Rust is installed now. Great!
+
+To get started you may need to restart your current shell.
+This would reload your PATH environment variable to include
+Cargo's bin directory ($HOME/.cargo/bin).
+
+To configure your current shell, run:
+source "$HOME/.cargo/env"
+```
+```console
+source "$HOME/.cargo/env"
+rustc --version
+```
+```
+rustc 1.71.1 (eb26296b5 2023-08-03)
+```
+
+To update.
+
+```console
+rustup update
+```
+
+To uninstall.
+
+```console
+rustup self uninstall
+```
 
 ## Docker
 
