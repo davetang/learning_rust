@@ -2,7 +2,7 @@ Table of Contents
 =================
 
 * [Learning Rust](#learning-rust)
-   * [Installation](#installation)
+   * [Docker](#docker)
    * [Getting started](#getting-started)
       * [Testing](#testing)
       * [Adding a project dependency](#adding-a-project-dependency)
@@ -16,27 +16,27 @@ Table of Contents
 
 Because why not!?
 
-## Installation
+## Docker
 
-Use `rustup`, a command line tool for managing Rust versions and associated
-tools, to [install
-Rust](https://doc.rust-lang.org/book/ch01-01-installation.html).
+Use the [official Docker image](https://hub.docker.com/_/rust/).
 
-```console
-curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+```bash
+docker pull rust:1.64.0
 
-# 1) Proceed with installation (default)
-# Rust is installed now. Great!
-
-rustc --version
-# rustc 1.72.0 (5680fa18f 2023-08-23)
+docker run --rm rust:1.64.0 cat /etc/os-release
+PRETTY_NAME="Debian GNU/Linux 11 (bullseye)"
+NAME="Debian GNU/Linux"
+VERSION_ID="11"
+VERSION="11 (bullseye)"
+VERSION_CODENAME=bullseye
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
 ```
 
-Updating.
-
-```console
-rustup update
-```
+Use `script/start_container.sh` to start and restart a container using
+rust:1.64.0 called `learning_rust`.
 
 ## Getting started
 
