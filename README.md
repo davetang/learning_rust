@@ -2,6 +2,7 @@ Table of Contents
 =================
 
 * [Learning Rust](#learning-rust)
+   * [Installation](#installation)
    * [Docker](#docker)
    * [Getting started](#getting-started)
       * [Testing](#testing)
@@ -16,11 +17,72 @@ Table of Contents
 
 Because why not!?
 
+Rust is syntactically similar to C, so there are `for` loops, semicolon
+terminated statements, and blocks formed by curly braces. Rust is statically
+typed, meaning that a variable can never change its type but you don't always
+have to declare a variable's type in Rust because the compiler can often figure
+it out from the context. Variables in Rust are _immutable_ by default.
+Functions are _first-class_ values, like in functional programming languages.
+
+Rust is not an object-oriented language, as there are no classes or inheritance
+in Rust. Instead, Rust uses a `struct` (structure) to represent complex data
+types and _traits_ to describe how types can behave. These structures can have
+methods, can mutate the internal state of the data, and might even be called
+_objects_ in the documentation, but they are not objects in the formal sense of
+the word.
+
+Rust can guarantee memory safety through the use of a _borrow checker_ that
+tracks which part of a program has safe access to different parts of memory and
+this safety does not come at the expense of performance.
+
+Rust programs compile to native binaries and often match or beat the speed of
+programs written in C or C++. For these reasons, Rust is often described as a
+systems programming language that has been designed for performance and safety.
+
+## Installation
+
+Rust can be installed using `rustup`, which is a command line tool for managing
+Rust versions and associated tools. Open a terminal, enter the command below
+and follow the prompt.
+
+```console
+curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+```
+```
+Rust is installed now. Great!
+
+To get started you may need to restart your current shell.
+This would reload your PATH environment variable to include
+Cargo's bin directory ($HOME/.cargo/bin).
+
+To configure your current shell, run:
+source "$HOME/.cargo/env"
+```
+```console
+source "$HOME/.cargo/env"
+rustc --version
+```
+```
+rustc 1.71.1 (eb26296b5 2023-08-03)
+```
+
+To update.
+
+```console
+rustup update
+```
+
+To uninstall.
+
+```console
+rustup self uninstall
+```
+
 ## Docker
 
 Use the [official Docker image](https://hub.docker.com/_/rust/).
 
-```bash
+```console
 docker pull rust:1.64.0
 
 docker run --rm rust:1.64.0 cat /etc/os-release
@@ -42,32 +104,78 @@ rust:1.64.0 called `learning_rust`.
 
 The Rust compiler is `rustc`. Compile the hello world example by running:
 
-```bash
+```console
 rustc eg/hello.rs
+
+./hello
+# Hello, world!
+```
+
+Determine file type.
+
+```console
+file ./hello
+
+# ./hello: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=81ba1f0be3c7a8c64dfc5e3e05959affe202f9a3, not stripped
 ```
 
 Cargo is Rust's build tool, package manager, and test runner. You can use it to
-start a new Rust project.
+start a new Rust project. The `src` directory is for source code files and
+`main.rs` is the default starting point.
 
-```bash
-cargo new hello
+```console
+cargo new new_project
+#      Created binary (application) `new_project` package
+
+tree --charset ascii new_project/
+# new_project/
+# |-- Cargo.toml
+# `-- src
+#     `-- main.rs
+#
+# 1 directory, 2 files
 ```
 
 `Cargo.toml` is a configuration file for the project and stands for [Tom's
-Obvious, Minimal Language](https://en.wikipedia.org/wiki/TOML). The `src`
-directory is for source code files and `main.rs` is the default starting point.
+Obvious, Minimal Language](https://en.wikipedia.org/wiki/TOML).
 
-Use `cargo run` (in the `hello` directory) to compile and run or else you'll
-get the following error `error: could not find Cargo.toml in /work or any
-parent directory`. Use `cargo build` for just building and not running.
+```toml
+[package]
+name = "new_project"
+version = "0.1.0"
+edition = "2021"
 
-```bash
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+```
+
+The `edition` key is the edition of Rust that should be used to compile the
+program. Editions are how the Rust community introduces changes that are not
+backward compatible.
+
+Use `cargo run` (in the project root directory) to compile and run or else
+you'll get the following error `error: could not find Cargo.toml in /work or
+any parent directory`. Use `cargo build` for just building and not running.
+
+```console
+cd new_project
 cargo run
+#    Compiling new_project v0.1.0 (/home/dtang/github/learning_rust/new_project)
+#     Finished dev [unoptimized + debuginfo] target(s) in 0.20s
+#      Running `target/debug/new_project`
+# Hello, world!
 ```
 
 By default, Cargo will build a `debug` target and there will be a
 `target/debug` directory containing the build artifacts. Use `cargo clean` to
 remove the target directory.
+
+### Getting help
+
+You can get help on any of Cargo's commands using:
+
+    cargo help command
 
 ### Testing
 
