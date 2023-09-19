@@ -242,6 +242,9 @@ Cargo commands.
   much faster but takes longer to compile so use it only when you are ready for
   release.
 * To remove the target directory, use `cargo clean`.
+* To update a crate, use `cargo update`, which will ignore the _Cargo.lock_
+  file and figure out all the latest versions that fit the specifications in
+  _Cargo.toml_.
 
 ## Useful crates
 
