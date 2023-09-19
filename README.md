@@ -7,6 +7,7 @@ Table of Contents
    * [Getting started](#getting-started)
       * [Testing](#testing)
       * [Adding a project dependency](#adding-a-project-dependency)
+   * [Cargo](#cargo)
    * [Useful crates](#useful-crates)
    * [Notes](#notes)
    * [Resources](#resources)
@@ -226,6 +227,21 @@ this crate is only used for testing and benchmarking.
 [dev-dependencies]
 assert_cmd = "1"
 ```
+
+## Cargo
+
+Cargo commands.
+
+* Create a project using `cargo new`.
+* Build a project using `cargo build`.
+* Build and run a project using `cargo run`.
+* Build a project without producing a binary to check for errors using `cargo
+  check`; this is faster than `cargo build` and is useful for testing.
+* Run tests inside `tests` using `cargo test`
+* Compile with optimisations using `cargo build --release`; this executable is
+  much faster but takes longer to compile so use it only when you are ready for
+  release.
+* To remove the target directory, use `cargo clean`.
 
 ## Useful crates
 
