@@ -255,3 +255,5 @@ solution to above tradeoff problem."
 * [freeCodeCamp's complete Rust programming
 course](https://www.freecodecamp.org/news/rust-programming-course-for-beginners/)
 (14-hour watch).
+* [Rust-bio](https://docs.rs/bio/latest/bio/), a bioinformatics library for
+Rust
