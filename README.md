@@ -245,12 +245,27 @@ Cargo commands.
 
 ## Useful crates
 
-* For parsing command-line arguments, use [clap](https://crates.io/crates/clap) (command-line argument parser).
+A crate is a collection of Rust source code files. There is a _binary crate_,
+  which is an executable and there is a _library crate_, which contains code
+  that is intended for use in other programs and can't be executed on its own.
+  Crates are expected to use semantic version numbers in the form
+  major.minor.patch.
+
+Edit `Cargo.toml` to add a dependency.
+
+```
+[dependencies]
+rand = "0.8.5"
+```
+
+The specifier `0.8.5` is a shorthand for `^0.8.5`, which means any version that
+is at least 0.8.5 but below 0.9.0.
+
+* For parsing command-line arguments, use [clap](https://crates.io/crates/clap)
+  (command-line argument parser).
 
 ## Notes
 
-* Rust libraries are called crates and they are expected to use semantic
-  version numbers in the form major.minor.patch.
 * A _trait_ in Rust is a way to define the behaviour of an object in an
   abstract way. For example, if an object implements the `Display` trait, then
   it can be formatted for user-facing output.
