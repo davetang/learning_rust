@@ -1,7 +1,7 @@
 # README
 
-[Common programming concepts in
-Rust](https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html).
+[Common programming concepts explained in a Rust-centric way, i.e.
+rustic](https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html).
 
 ## Variables
 
@@ -43,6 +43,184 @@ compile-time error if we accidentally try to reassign to the variable without
 using the `let` keyword.
 
 ## Basic types
+
+Every value in Rust is of a certain _data type_, which tells Rust what kind of
+data is being specified so it knows how to work with that data. Rust is a
+_statically typed_ language, meaning that it must know the types of all
+variables at compile time. The compiler can usually infer the type based on the
+value and how the variable is used. In cases, when many types are possible, we
+need to add a type annotation.
+
+```rust
+let guess: u32 = "1984".parse().expect("Not a number!");
+```
+
+A _scalar_ type represents a single value. Rust has four primary scalar types:
+
+1. Integers,
+2. Floating-point numbers,
+3. Booleans, and
+4. Characters.
+
+Integer types in Rust.
+
+| Length  | Signed | Unsigned |
+| --      | --     | --       |
+| 8-bit   | i8     | u8       |
+| 16-bit  | i16    | u16      |
+| 32-bit  | i32    | u32      |
+| 64-bit  | i64    | u64      |
+| 128-bit | i128   | u128     |
+| arch    | isize  | usize    |
+
+Integer types default to `i32`.
+
+The `isize` and `usize` types depend on the architecture of the computer the
+program is running on; 64 bits on a 64-bit architecture and 32 bits on a 32-bit
+architecture. The primary situation in which this is used is when indexing some
+sort of collection.
+
+Write integer literals as below:
+
+| Number literals  | Example     |
+| --               | --          |
+| Decimal          | 98_222      |
+| Hex              | 0xff        |
+| Octal            | 0o77        |
+| Binary           | 0b1111_0000 |
+| Byte (`u8` only) | b'A'        |
+
+Number literals that can be multiple numeric types allow a type suffix, such as
+`57u8`. You can use an underscore (just like in Perl!) to make numbers easier
+to read.
+
+**When compiling in release mode with the `--release` flag, Rust does _not_
+include checks for integer overflow that cause panics. Instead, if overflow
+occurs, Rust performs _two's complement wrapping_. In short, values greater
+than the maximum value the type can hold "wrap around" to the minimum of the
+values the type can hold. In the case of a `u8`, the value 256 becomes 0, 257
+becomes 1, and so on. The program won't panic, but the variable will have a
+value that probably isn't what you were expecting. Relying on integer
+overflow's wrapping behaviour is considered an error.
+
+Rust has two primitive types for _floating-point numbers_: `f32` and `f64`. The
+default type is `f64` because on modern CPUs it is roughly the same speed as
+`f32`. All floating-point types are signed. The `f32` type is a
+single-precision float and `f64` has double precision.
+
+```rust
+fn main() {
+    let x = 2.0; // f64
+
+    let y: f32 = 3.0; // f32
+}
+```
+
+Integer division truncates toward zero to the nearest integer.
+
+```rust
+fn main() {
+    // addition
+    let sum = 5 + 10;
+
+    // subtraction
+    let difference = 95.5 - 4.3;
+
+    // multiplication
+    let product = 4 * 30;
+
+    // division
+    let quotient = 56.7 / 32.2;
+    let truncated = -5 / 3; // Results in -1
+
+    // remainder
+    let remainder = 43 % 5;
+}
+```
+
+The Boolean type in Rust is specified using `bool` and are `true` and `false`;
+they are one byte in size.
+
+Rust's `char` type is the language's most primitive alphabetic type.
+
+```rust
+fn main() {
+    let c = 'z';
+    let z: char = 'ℤ'; // with explicit type annotation
+}
+```
+
+`char` literals are specified with single quotes, in contrast to string
+literals, which use double quotes. Rust's `char` type is four bytes in size and
+represent a Unicode Scalar Value, which means it can represent a lot more than
+just ASCII.
+
+_Compound types_ can group multiple values into one type. Rust has two
+primitive compound types: tuples and arrays.
+
+A _tuple_ is a general way of grouping together a number of values with a
+  variety of types into one compound type. Tuples have a fixed length: once
+  declared, they cannot grow or shrink in size.
+
+Below a tuple is created and is bound to the variable `tup`. A pattern is used
+with `let` to take `tup` and turn it into three separate variables, `x`, `y`,
+and `z`. This is called _destructuring_ because it breaks the single tuple into
+three parts.
+
+```rust
+fn main() {
+    let tup: (i32, f64, u8) = (500, 6.4, 1);
+
+    let (x, y, z) = tup;
+
+    println!("The value of y is: {y}");
+}
+```
+
+Tuple elements can be directly accessed by using a period (`.`) followed by the
+(zero) index of the value, e.g. `let five_hundred = tup.0;`.
+
+The tuple without any values has a special name, _unit_. This value and its
+corresponding type are both written `()` and represent an empty value or an
+empty return type. Expressions implicitly return the unit value if they don't
+return any other value.
+
+An _array_ is another way to have a collection of multiple values. However,
+unlike a tuple, every element of an array must have the same type. Arrays in
+Rust have a fixed length.
+
+```rust
+fn main() {
+    let a: [i32; 5] = [1, 2, 3, 4, 5];
+}
+```
+
+Arrays are useful when you want your data allocated on the stack rather than
+the heap or when you want to ensure you always have a fixed number of elements.
+
+An array is not as flexible as the vector type; a _vector_ is a similar
+collection type provided by the standard library that _is_ allowed to grow or
+shrink in size.
+
+You can initialise an array to contain the same value for each element by
+specifying the initial value, followed by a semicolon, and then the length of
+the array in square brackets.
+
+```rust
+let a = [3; 5]
+```
+
+An array is a single chunk of memory of a known, fixed size that can be
+allocated on the stack. Use indexing to access elements of an array.
+
+```rust
+fn main() {
+    let a = [1, 2, 3, 4, 5];
+    let first = a[0];
+    let second = a[1];
+}
+```
+
 ## Functions
 
 Use the `fn` keyword to declare new functions. Rust code uses snake_case as the
@@ -137,6 +315,11 @@ fn plus_one(x: i32) -> i32 {
 ```
 
 ## Comments
+
+```rust
+//
+```
+
 ## Control flow
 
 The most common constructs that let you control the flow of execution of Rust
