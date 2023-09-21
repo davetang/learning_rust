@@ -1,3 +1,13 @@
+## Table of Contents
+
+- [README](#readme)
+  - [Variables](#variables)
+  - [Basic types](#basic-types)
+  - [Vectors](#vectors)
+  - [Functions](#functions)
+  - [Comments](#comments)
+  - [Control flow](#control-flow)
+
 # README
 
 [Common programming concepts explained in a Rust-centric way, i.e.
@@ -220,6 +230,10 @@ fn main() {
     let second = a[1];
 }
 ```
+
+## Vectors
+
+<https://doc.rust-lang.org/book/ch08-01-vectors.html>
 
 ## Functions
 
