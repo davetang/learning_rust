@@ -88,9 +88,9 @@ heap data can help explain why it works the way it does.
 
 ## Ownership Rules
 
-ownership.md ownership.md.bk ownership.md.this.contains.the.toc ownership.md.this.is.a.temporary.file README.md Each value in Rust has an _owner_.
-ownership.md ownership.md.bk ownership.md.this.contains.the.toc ownership.md.this.is.a.temporary.file README.md There can only be one owner at a time.
-ownership.md ownership.md.bk ownership.md.this.contains.the.toc ownership.md.this.is.a.temporary.file README.md When the owner goes out of scope, the value will be dropped.
+* Each value in Rust has an _owner_.
+* There can only be one owner at a time.
+* When the owner goes out of scope, the value will be dropped.
 
 As a first example of ownership, we'll look at the _scope_ of some variables. A
 scope is the range within a program for which an item is valid.
@@ -102,9 +102,8 @@ let s = "hello"; // s is valid from this point forward
 } // this scope is now over, and s is no longer valid
 ```
 
-ownership.md ownership.md.bk ownership.md.this.contains.the.toc ownership.md.this.is.a.temporary.file README.md When `s` comes into scope, it is valid.
-ownership.md ownership.md.bk ownership.md.this.contains.the.toc ownership.md.this.is.a.temporary.file README.md It remains valid until it goes _out of_ scope.
-
+* When `s` comes into scope, it is valid.
+* It remains valid until it goes _out of_ scope.
 
 Types that are of a known size can be stored on the stack and popped off the
 stack when their scope is over, and can be quickly and trivially copied to make
@@ -140,8 +139,8 @@ With the `String` type, in order to support a mutable, growable piece of text,
 we need to allocate an amount of memory on the heap, unknown at compile time,
 to hold the contents. This means:
 
-ownership.md ownership.md.bk ownership.md.this.contains.the.toc ownership.md.this.is.a.temporary.file README.md The memory must be requested from the memory allocator at runtime.
-ownership.md ownership.md.bk ownership.md.this.contains.the.toc ownership.md.this.is.a.temporary.file README.md We need a way of returning this memory to the allocator when we're done with
+* The memory must be requested from the memory allocator at runtime.
+* We need a way of returning this memory to the allocator when we're done with
 our `String`.
 
 That first part is done by us: when we called `String::from`, its
