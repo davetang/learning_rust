@@ -2,6 +2,7 @@
 
   - [Structure](#structure)
   - [Defining and Instantiating Structs](#defining-and-instantiating-structs)
+  - [Using the Field Init Shorthand](#using-the-field-init-shorthand)
 
 ## Structure
 
@@ -81,3 +82,24 @@ fn build_user(email: String, username: String) -> User {
     }
 }
 ```
+
+## Using the Field Init Shorthand
+
+We can use the _field init shorthand_ syntax to rewrite `build_user` so it
+behaves exactly the same but does not have the repetition of `username` and
+`email`.
+
+```rust
+fn build_user(email: String, username: String) -> User {
+    User {
+        active: true,
+        username,
+        email,
+        sign_in_count: 1,
+    }
+}
+```
+
+The function above creates a new instance of the `User` struct. Because the
+`email` field and the email parameter have the same name, we only need to write
+`email` rather than `email: email`.
