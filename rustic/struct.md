@@ -1,3 +1,8 @@
+## Table of Contents
+
+  - [Structure](#structure)
+  - [Defining and Instantiating Structs](#defining-and-instantiating-structs)
+
 ## Structure
 
 A _struct_, or _structure_, is a custom data type that lets you package
