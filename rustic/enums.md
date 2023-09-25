@@ -2,6 +2,11 @@
 
   - [Enumerations](#enumerations)
   - [The Option Enum and Its Advantages Over Null Values](#the-option-enum-and-its-advantages-over-null-values)
+  - [The match Control Flow Construct](#the-match-control-flow-construct)
+  - [Patterns That Bind to Values](#patterns-that-bind-to-values)
+  - [Matching with Option<T>](#matching-with-optiont)
+  - [Matches Are Exhaustive](#matches-are-exhaustive)
+  - [Catch-all Patterns and the _ Placeholder](#catch-all-patterns-and-the-_-placeholder)
 
 ## Enumerations
 
@@ -268,3 +273,180 @@ we convert an `Option<T>` to a `T`. This conversion requires us to explicitly
 handle the case when the value is null. Generally, this helps catch one of the
 most common issues with null: assuming that something is not null when it
 actually is.
+
+## The match Control Flow Construct
+
+The control flow construct called `match` allows you to compare a value against
+a series of patterns and then execute code based on which pattern matches.
+Patterns can be made up of literal values, variable names, wildcards, and many
+other things. The power of `match` comes from the expressiveness of the
+patterns and the fact that the compiler confirms that all possible cases are
+handled.
+
+```rust
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
+}
+```
+
+Note that `match` seems very similar to a conditional expression used with `if`
+but there's a big difference: with `if`, the condition needs to evaluate to a
+Boolean value, but with `match` it can be any type.
+
+Use curly brackets if the arm code is long.
+
+```rust
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => {
+            println!("Lucky penny!");
+            1
+        }
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
+}
+```
+
+## Patterns That Bind to Values
+
+Another useful feature of match arms is that they can bind to the parts of the
+values that match the pattern. This is how we can extract values out of enum
+variants.
+
+```rust
+#[derive(Debug)] // for inspecting the state
+enum UsState {
+    Alabama,
+    Alaska,
+    // --snip--
+}
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState),
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => {
+            println!("State quarter from {:?}!", state);
+            25
+        }
+    }
+}
+
+value_in_cents(Coin::Quarter(UsState::Alaska))
+```
+
+In the example above, the binding for `state` will be the value
+`UsState::Alaska`, which gets printed out.
+
+## Matching with Option<T>
+
+Let's stay we want to write a function that takes an `Option<i32>` and, it
+there's a value inside, adds 1 to that value. If there isn't a value inside,
+the function should return the `None` value and not attempt to perform any
+operations.
+
+```rust
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
+    }
+}
+
+let five = Some(5);
+let six = plus_one(five);
+let none = plus_one(None);
+```
+
+Combining `match` and enums is useful in many situations. You will see this
+pattern a lot in Rust code:
+
+1. `match` against an enum
+2. Bind a variable to the data inside
+3. Execute code based on the binding
+
+## Matches Are Exhaustive
+
+The arms' patterns of `match` must cover all possibilities. The following won't
+compile because the `None` case is not handled.
+
+```rust
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        Some(i) => Some(i + 1),
+    }
+}
+```
+
+Matches in Rust are _exhaustive_: we must exhaust every last possibility in
+order for the code to be valid.
+
+## Catch-all Patterns and the _ Placeholder
+
+Using enums, we can also take special actions for a few particular values, but
+for all other values take one default action. Imagine we are implementing a
+  game where, if you roll a three, your player doesn't mover but instead gets a
+  new fancy hat. If you roll a seven, your player loses a fancy hat. For all
+  other values, your player moves that number of spaces on the game board.
+
+```rust
+match dice_roll {
+    3 => add_fancy_hat(),
+    7 => remove_fancy_hat(),
+    other => move_player(other),
+}
+
+fn add_fancy_hat() {}
+fn remove_fancy_hat() {}
+fn move_player(num_spaces: u8) {}
+```
+
+Rust also has a pattern we can use when we want a catch-all but don't want to
+_use_ the value in the catch-all pattern: `_` is a special pattern that matches
+any value and does not bind to that value. This tells Rust we aren't going to
+use the value, so Rust won't warn us about an unused variable.
+
+```rust
+match dice_roll {
+    3 => add_fancy_hat(),
+    7 => remove_fancy_hat(),
+    _ => reroll(),
+}
+
+fn add_fancy_hat() {}
+fn remove_fancy_hat() {}
+fn reroll() {}
+```
+
+Use the unit value, i.e. the empty tuple type, when we don't want to run any
+code.
+
+```rust
+match dice_roll {
+    3 => add_fancy_hat(),
+    7 => remove_fancy_hat(),
+    _ => (),
+}
+```
