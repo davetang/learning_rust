@@ -7,6 +7,7 @@
   - [Matching with Option<T>](#matching-with-optiont)
   - [Matches Are Exhaustive](#matches-are-exhaustive)
   - [Catch-all Patterns and the _ Placeholder](#catch-all-patterns-and-the-_-placeholder)
+  - [Concise Control Flow with if let](#concise-control-flow-with-if-let)
 
 ## Enumerations
 
@@ -450,3 +451,32 @@ match dice_roll {
     _ => (),
 }
 ```
+
+## Concise Control Flow with if let
+
+The `if let` syntax lets you combine `if` and `let` into a less verbose way to
+handle values that match one pattern while ignoring the rest. Consider the
+following:
+
+```rust
+let config_max = Some(3u8);
+match config_max {
+    Some(max) => println!("The maximum is configured to be {}", max),
+    _ => (),
+}
+```
+
+Since we are using `match` we need to add `_ => ()`. We could write the above
+code using `if let`.
+
+```rust
+let config_max = Some(3u8);
+if let Some(max) = config_max {
+    println!("The maximum is configured to be {}", max);
+}
+```
+
+The syntax `if let` takes a pattern and an expression separated by an equal
+sign. It works the same way as a `match`, where the expression is given to the
+`match` and the pattern is its first arm. The code in the `if let` block isn't
+run if the value doesn't match the pattern.
