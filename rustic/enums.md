@@ -1,6 +1,7 @@
 ## Table of Contents
 
   - [Enumerations](#enumerations)
+  - [The Option Enum and Its Advantages Over Null Values](#the-option-enum-and-its-advantages-over-null-values)
 
 ## Enumerations
 
@@ -176,3 +177,94 @@ m.call();
 
 The body of the method would use `self` to get the value that we called the
 method on.
+
+## The Option Enum and Its Advantages Over Null Values
+
+The `Option` type is an enum defined by the standard library and encodes the
+very common scenario in which a value could be something or it could be
+nothing. For example, if you request the first item in a non-empty list, you
+would get a value. If you request the first item in an empty list, you would
+get nothing. Expressing this concept in terms of the type system means the
+compiler can check whether you have handled all the cases you should be
+handling; this functionality can prevent bugs that are extremely common in
+other programming languages.
+
+Programming language design if often thought of in terms of which features you
+include, but the features you exclude are important too. Rust does not have the
+null feature that many other languages have. _Null_ is a value that means there
+is no value there. In languages with null, variables can always be in one of
+two states: null or not-null.
+
+In his 2009 presentation "Null References: The Billion Dollar Mistake," Tony
+Hoare, the inventor of null, has this to say:
+
+>I call it my billion-dollar mistake. At that time, I was designing the first
+   comprehensive type system for references in an object-oriented language. My
+   goal was to ensure that all use of references should be absolutely safe,
+   with checking performed automatically by the compiler. But I couldn't resist
+   the temptation to put in a null reference, simply because it was so easy to
+   implement. This has led to innumerable errors, vulnerabilities, and system
+   crashes, which have probably caused a billion dollars of pain and damage in
+   the last forty years.
+
+The problem with null values is that if you try to use a null value as a
+not-null value, you'll get an error of some kind. Because this null or not-null
+property is pervasive, it's extremely easy to make this kind of error.
+
+However, the concept that null is trying to express is still a useful one: a
+null is a value that is currently invalid or absent for some reason.
+
+The problem is not really with the concept but with the particular
+implementation. As such, Rust does not have nulls, but it does have an enum
+that can encode the concept of a value being present or absent. This enum is
+`Option<T>`, and it is defined by the standard library as follows:
+
+```rust
+enum Option<T> {
+    None,
+    Some(T),
+}
+```
+
+The `<T>` syntax is a generic type parameter and it means that the `Some`
+variant of the `Option` enum can hold one piece of data of any type and that
+each concrete type that gets used in place of `T` makes the overall `Option<T>`
+type a different type.
+
+```rust
+let some_number = Some(5);
+let some_char = Some('e');
+
+let absent_number: Option<i32> = None;
+```
+
+Rust can infer the types of `some_number` and `some_char` but for
+`absent_number`, Rust requires us to annotate the overall `Option` type: the
+compiler can't infer the type that the corresponding `Some` variant will hold
+by looking only at a `None` value.
+
+When we have a `Some` value, we know that a value is present and the value is
+held within the `Some` type. When we have a `None` value, in some sense it
+means the same thing as null: we do not have a valid value. So why is having
+`Option<T>` any better than having null?
+
+In short, because `Option<T>` and `T` (where `T` can be any type) are different
+types, the compiler won't let us use an `Option<T>` value as if it were
+definitely a valid value. For example, the following code won't compile because
+it is trying to add an `i8` to an `Option<i8>`:
+
+```rust
+let x: i8 = 5;
+let y: Option<i8> = Some(5);
+
+let sum = x + y;
+```
+
+This is because `i8` and `Option<i8>` are different types and Rust does not
+understand how they are added.
+
+We use `Option<T>` when a value can be null and we can only use its value when
+we convert an `Option<T>` to a `T`. This conversion requires us to explicitly
+handle the case when the value is null. Generally, this helps catch one of the
+most common issues with null: assuming that something is not null when it
+actually is.
