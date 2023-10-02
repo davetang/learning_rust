@@ -1,0 +1,16 @@
+sudo: true
+dist: xenial
+services:
+  - docker
+language: python
+python:
+  - "3.4"
+
+before_install:
+  - pip3 install cwltool
+  - docker build -t biodemo .
+
+script:
+  - docker run --entrypoint /biodemo/.travis/unit-test.sh biodemo
+  - docker run --entrypoint /biodemo/functional_tests/biodemo-test.sh biodemo -p biodemo -d /biodemo/functional_tests/test_data -v  
+  - cwltool biodemo.cwl --fasta_file functional_tests/test_data/two_sequence.fasta

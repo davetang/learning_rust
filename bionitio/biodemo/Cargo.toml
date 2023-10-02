@@ -1,0 +1,10 @@
+[package]
+name = "biodemo"
+version = "0.1.0"
+authors = ["Bernie Pope <bjpope@unimelb.edu.au>"]
+
+[dependencies]
+bio = "*"
+argparse = "*"
+log = "*"
+log4rs = "*"
