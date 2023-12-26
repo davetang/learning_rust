@@ -494,3 +494,11 @@ annoying to have to annotate all enum variants with `pub` in every case, so the
 default for enum variants is to be public. Structs are often useful without
 their fields being public, so struct fields follow the general rule of
 everything being private by default unless annotated with `pub`.
+
+## Bringing Paths into Scope with the use Keyword
+
+Having to write out the paths to call functions can feel inconvenient and
+repetitive. We can create a shortcut to a path with the `use` keyword once, and
+then use the shorter name everywhere else in the scope.
+
+
